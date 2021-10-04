@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon API</title>
+    <style>
+        * {
+            font-family: Calibri, Candara, Segoe
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .info {
+            display: flex;
+            width: 50%;
+            align-items: center;
+            justify-content: space-between;
+            border: solid 2px black;
+            padding: 0 20px;
+        }
+        .infoGet {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: space-between;
+            border: solid 2px black;
+            padding: 0 20px;
+            margin-left: -22px;
+        }
+        .extended {
+            border: solid 2px blue;
+            width: 50%;
+            padding: 0 20px;
+            /* margin-left: -22px; */
+        }
+
+        .post {
+            border-color: green;
+        }
+        .delete {
+            border-color: red;
+        }
+        .get {
+            border-color: blue;
+        }
+        .json{
+            color: rgb(0, 123, 194);
+        }
+    </style>
+</head>
+<body>
+    <h1>Available endpoints and what they do:</h1>
+    <div class="info post">
+        <p>/insertcsv</p>
+        <h5>POST</h5>
+        <p>Insert the pokemon.csv data located in the app.py<br> directory into the database</p>
+    </div>
+    <div class="info delete">
+        <p>/deleteall</p>
+        <h5>DELETE</h5>
+        <p>Delete all the data located in the specified database</p>
+    </div>
+    <div class="extended">
+        <div class="infoGet get">
+            <p>/view</p>
+            <h5>GET</h5>
+            <p>Expose(view) data from the database with or<br> without sorting, filtering and ordering
+                that <br> should be given in the request body as json</p>
+        </div>
+        <p class = "description">
+            Manipulating what you get from this endpoint is done through request's json body. If you <br>
+            want to sort by any of the columns you can do that by using the key 'sort_by_column' and <br>
+            the value of the column you want to sort by ex. 'type1' like this: <br><br>
+            <p class="json">
+                { <br>
+                    <span>"sort_by_column" : "type1"</span> <br>
+                }
+            </p> <br><br>
+            If you want the order to be ascending or descending you use the key 'order' and  <br>
+            the value 'asc' for ascending(defalut) or 'dsc' for descending: <br><br>
+            <p class="json">
+                { <br>
+                    <span>"sort_by_column" : "type1"</span> <br>
+                    <span>"order" : "dsc"</span> <br>
+                }
+            </p> <br><br>
+            to get the pokemons ordered by type1 in descending order.
+            <br>
+            If you want to filter the results from the database you use the key 'filter_by_type' and <br>
+            the value of the type you want(ex. Fire, Water, Wind etc). This will show all the pokemos <br>
+            that have the 'filter_by_type' matching either in type1 or in type2. The json looks like: <br>
+            <br>
+            <p class="json">
+                { <br>
+                    <span>"filter_by_type" : "Fire"</span> <br>
+                }
+            </p><br><br>
+            Finally the way that the api was setup makes it possible for the user to use all three keys <br>
+            at the same time and the api will return the data that is expected. One example of that would be <br><br>
+            <p class="json">
+                { <br>
+                    <span>"filter_by_type" : "Water"</span> <br>
+                    <span>"sort_by_column" : "attack"</span> <br>
+                    <span>"order" : "dsc"</span> <br>
+                }
+            </p><br>
+            So using this json body the response would return pokemons that are Water type, sorted by the attack column <br>
+            and ordered in descending order<br>
+
+            <br>
+            <strong>Thanks for using my API. I hope it was useful for you.</strong>
+        </p>
+    </div>
+   
+</body>
+</html>

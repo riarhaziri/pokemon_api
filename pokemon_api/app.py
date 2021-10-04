@@ -12,6 +12,8 @@ mrsh = Marshmallow(app)
 
 db = SQLAlchemy(app)
 
+
+'''This is the Pokemon model that creates the Pokemon table and it is used to insert data'''
 class Pokemon(db.Model):
     id         = db.Column(db.Integer,    primary_key = True)
     name       = db.Column(db.String(50), nullable=False, )
@@ -44,6 +46,7 @@ class Pokemon(db.Model):
 db.create_all()
 db.session.commit()
 
+'''This is the Pokemon Schema which is used to convert python object data into serialized data'''
 class Pokemon_schema(mrsh.Schema):
     class Meta:
         fields = ('id','name','type1','type2','total','hp','attack','defense','sp_atk','sp_def','speed','generation','legendary')
@@ -52,11 +55,13 @@ class Pokemon_schema(mrsh.Schema):
 pokemon_schema = Pokemon_schema(many=False)
 pokemons_schema = Pokemon_schema(many=True)
 
+'''This route(method) is the home route and it shows hints on how to use the api with a simple template'''
+@app.route('/')
+def home():
+    return render_template('home.html')
 
-@app.route("/test")
-def this_text():
-    return 'This is a test!'
-
+'''This route(method) is used to expose the data from the database, with filters and sorting 
+by ascending and descending order'''
 @app.route("/view", methods=['GET'])
 def view_all():
     if request.json:
@@ -86,6 +91,8 @@ def view_all():
                     all_pokemons = pokemon_filtered.order_by(sort_by_column).all()
                 else:
                     all_pokemons = Pokemon.query.order_by(sort_by_column).all()
+        else:
+            all_pokemons = pokemon_filtered
         result = pokemons_schema.dump(all_pokemons)
         return jsonify(result)
     else:
@@ -95,14 +102,14 @@ def view_all():
 
 
 
-'''This method deletes all pokemons ( resets the database)'''
-@app.route("/pokemon/delete", methods=['DELETE'])
+'''This route(method) deletes all pokemons ( resets the database)'''
+@app.route("/deleteall", methods=['DELETE'])
 def delete_all_pokemons():
     Pokemon.query.delete()
     db.session.commit()
     return {"success" : "Deleted all Pokemons"}
 
-
+'''This route(method) takes the pokemon.csv file and loads its data into the pokemon_db database.'''
 @app.route("/insertcsv")
 def insert_from_csv():
     init_pokemons = csv_to_list('pokemon.csv', Pokemon)
