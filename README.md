@@ -7,7 +7,7 @@ During the steps we will use a database user <your_db_user> (default is postgres
 - STEP 1: $ ```pip install -r requirements.txt```
 - STEP 2: $``` psql -U  <your_db_user>```
 then type the password for your user. Now u should be inside psql
-- STEP 3: $ ```CREATE DATABASE pokemon_db```
+- STEP 3: $ ```CREATE DATABASE pokemon_db;```
 then press CTRL+C to go back to the root directory terminal
 -STEP 4 : Add a .env file in the root directory with this information:
 ```

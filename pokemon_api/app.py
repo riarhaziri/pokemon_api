@@ -110,7 +110,7 @@ def delete_all_pokemons():
     return {"success" : "Deleted all Pokemons"}
 
 '''This route(method) takes the pokemon.csv file and loads its data into the pokemon_db database.'''
-@app.route("/insertcsv")
+@app.route("/insertcsv", methods=['POST'])
 def insert_from_csv():
     init_pokemons = csv_to_list('pokemon.csv', Pokemon)
     db.session.add_all(init_pokemons)
